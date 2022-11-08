@@ -2,7 +2,7 @@ import '../scss/style.scss'
 import p5 from "p5";
 
 const sketch = (p5) => {
-  let cols, rows, terrain, flying = 0, yOffset, xOffset;
+  let cols, rows, terrain, flying = 0, yOffset, xOffset, number1, number2, time = 0;
   const scale = 25;
   const w = window.innerWidth;
   const h = window.innerHeight;
@@ -12,13 +12,17 @@ const sketch = (p5) => {
     cols = w / scale;
     rows = h / scale;
     // terrain = [cols][rows];
+    // console.log(terrain);
     terrain = {
-      cols: 0,
-      rows: 0
+      cols: cols,
+      rows: rows
     };
   };
 
   p5.draw = () => {
+    if(time % 2 === 0) return;
+    time++;
+
     p5.background("#300350");
 
     flying -= 0.1;
@@ -29,8 +33,12 @@ const sketch = (p5) => {
       xOffset = 0;
 
       for (let x = 0; x < cols; x++) {
-        // terrain = p5.random(-15, 15);
-        terrain = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
+        // terrain.cols = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
+        // terrain.rows = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
+        number1 = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
+        number2 = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
+        console.log(number1);
+
 
         if (x >= 100) {
           p5.fill(255);
@@ -65,8 +73,10 @@ const sketch = (p5) => {
     for (let y = 0; y < rows-1; y++) {
       p5.beginShape(p5.TRIANGLE_STRIP);
       for (let x = 0; x < cols; x++) {
-        p5.vertex(x * scale, y * scale, [Math.sin(x)], [y]);
-        p5.vertex(x * scale, (y+1) * scale, [x], [y+1]);
+        // p5.vertex(x * scale, y * scale, [terrain.cols], [terrain.rows]);
+        // p5.vertex(x * scale, (y+1) * scale, [terrain.cols], [terrain.rows + 1]);
+        p5.vertex(x * scale, y * scale, number1);
+        // p5.vertex(x * scale, (y+1) * scale, number2);
         //rect(x * scale, y * scale, scale, scale);
       }
       p5.endShape();
