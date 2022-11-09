@@ -48,17 +48,16 @@ const sketch = (p5) => {
 
     p5.push();
     p5.noStroke();
-    p5.lights();
     p5.fill("#f4ff61");
-    p5.translate(0, -h / 4, -500);
-    p5.sphere(200);
+    p5.translate(0, -h / 3, -500);
+    p5.ellipse(0, 0, 400);
     p5.pop();
 
     p5.fill("#300350");
     p5.strokeWeight(1);
     p5.stroke("#f62e97");
     p5.rotateX(p5.PI/3);
-    p5.translate(-w / 2, -h / 2);
+    p5.translate(-w / 2, -h / 3);
 
     for (let y = 0; y < rows-1; y++) {
       p5.beginShape(p5.TRIANGLE_STRIP);
