@@ -27,7 +27,7 @@ const sketch = (p5) => {
 
   p5.draw = () => {
     time++;
-    if(time % 3 !== 0) return;
+    if(time % 30 !== 0) return;
 
     p5.background("#300350");
 
@@ -39,7 +39,8 @@ const sketch = (p5) => {
 
       for (let x = 0; x < cols; x++) {
         terrain[x][y] = p5.map(p5.noise(xOffset, yOffset), 0, 1, -100, 100);
-        // map(入力値, 最小値, 最大値, 新しい最小値, 新しい最大値)
+        // map:map(入力値, 最小値, 最大値, 新しい最小値, 新しい最大値)
+        // noise:引数を二次元にすることで二次元的に連続的なノイズにできる
         xOffset += 0.2;
       }
 
@@ -60,10 +61,21 @@ const sketch = (p5) => {
     p5.translate(-w / 2, -h / 3);
 
     for (let y = 0; y < rows-1; y++) {
+      // 三角を作るような感じでつなぐ
       p5.beginShape(p5.TRIANGLE_STRIP);
+      // ↓確認用
+      // let x = 0;
+      // let y = 0;
+      // p5.beginShape(p5.QUAD_STRIP); // ←これで見るとわかりやすい
       for (let x = 0; x < cols; x++) {
         p5.vertex(x * scale, y * scale, terrain[x][y]);
         p5.vertex(x * scale, (y+1) * scale, terrain[x][y+1]);
+        // vertex(x, y, z)
+        // x:頂点のx座標, y:頂点のy座標, z:頂点のz座標
+        // n番目とn+1番目をつなぐ。その次にn+1とn+2番目が繋がっていく
+        // ↓確認用
+        // p5.vertex((x + 1) * scale, y * scale, terrain[x][y]);
+        // p5.vertex((x + 1) * scale, (y+1) * scale, terrain[x][y+1]);
       }
       p5.endShape();
     }
